@@ -15,7 +15,6 @@ const getData = async () => {
     }
     return data;
 
-
 }
 // Function to create a row in the table with the data 
 const createRow = (data, tbody) => {
@@ -64,7 +63,7 @@ const createRow = (data, tbody) => {
     counter++;
 }
 
-
+var all_data = [];
 
 // We wait that the DOM is loaded before we call the function
 document.addEventListener('DOMContentLoaded', async () => {
@@ -73,7 +72,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await getData();
     
-    console.log(data);
+    // Inside all_data we store the data from the server like this: [[data[6],data[7]], [data[6],data[7]], ...]
+    data.forEach(element => {
+        all_data.push([element[6], element[7]]);
+    });
 
     if (data === "Error, could not get data from the server") {
         alert(data);
