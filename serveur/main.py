@@ -5,8 +5,21 @@ from fastapi import FastAPI, APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 from database import *
 from handle_bd_function import *
+
+
+class Item(BaseModel):
+    nom: str
+    ville: str
+    active: bool
+    frequence: int
+    temperature: float
+    humidite: float
+    pluviosite: float
+
 
 app = FastAPI()
 
@@ -42,12 +55,14 @@ def get_all_data():
     result = selectAllStations()
     return result
 
-
-
+'''
+    I have get a json object from the client side, and I want to insert it in the database
+'''
 @router.post("/send_data")
-def send_data(request: Request, nom: str = Form(...), ville: str = Form(...), active: bool = Form(...), frequence: int = Form(...), temperature: float = Form(...), humidite: float = Form(...), pluviosite: float = Form(...) ):
-   
-    result = insertStation(nom, ville, active, frequence, temperature, humidite, pluviosite )
+
+async def send_data(data: Item):
+    data = data.model_dump()
+    result = insertStation(data.nom, data.ville, data.active, data.frequence, data.temperature, data.humidite, data.pluviosite )
     
     if result:
     
