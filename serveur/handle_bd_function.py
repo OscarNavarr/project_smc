@@ -13,16 +13,17 @@ import uuid
     @param fréquence: the frequency of the station
     @return: true if the data is inserted, false if not
 '''
-def insertStation(nom,ville,active,fréquence):
+def insertStation(nom,ville,active,fréquence,température,humidité,pluviosité):
     try:
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
-        c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(str(uuid.uuid4()),nom,ville,active,fréquence))
+        var_uuid = str(uuid.uuid4())
+        c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(var_uuid,nom,ville,active,fréquence))
+        c.execute("INSERT INTO RELEVES (smc,température,humidité,pluviosité) VALUES (?,?,?,?)",(var_uuid,température,humidité,pluviosité))
         conn.commit()
-        return True
+        return c.lastrowid
     except Error as e:
-        print(e)
-        return False
+        return e 
     
     
 '''
@@ -33,7 +34,7 @@ def selectAllStations():
     try:
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
-        c.execute("SELECT * FROM STATIONS")
+        c.execute("SELECT * FROM STATIONS JOIN RELEVES ON STATIONS.id = RELEVES.smc")
         result = c.fetchall()
         return result
     except Error as e:

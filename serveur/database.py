@@ -13,10 +13,10 @@ def connectBase():
                  fréquence   int) ''')
         c.execute('''CREATE TABLE IF NOT EXISTS RELEVES
                 (smc         text,
-                 récolte     text,
+                 récolte     date default current_date,
                  température float,
                  humidité    float,
-                 pluviosité  bool,
+                 pluviosité  float,
                  foreign key (smc) references STATIONS(id)) ''')
         conn.commit()
         return conn
