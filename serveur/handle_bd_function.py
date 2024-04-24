@@ -21,7 +21,7 @@ def insertStation(nom,ville,active,fréquence,température,humidité,pluviosité
         c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(var_uuid,nom,ville,active,fréquence))
         c.execute("INSERT INTO RELEVES (smc,température,humidité,pluviosité) VALUES (?,?,?,?)",(var_uuid,température,humidité,pluviosité))
         conn.commit()
-        return c.lastrowid
+        return True
     except Error as e:
         return e 
     

@@ -5,8 +5,8 @@ from fastapi import FastAPI, APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-
+from pydantic import BaseModel, ValidationError
+from json import JSONDecodeError, loads
 from database import *
 from handle_bd_function import *
 
@@ -55,21 +55,30 @@ def get_all_data():
     result = selectAllStations()
     return result
 
-'''
-    I have get a json object from the client side, and I want to insert it in the database
-'''
-@router.post("/send_data")
 
-async def send_data(data: Item):
-    data = data.model_dump()
-    result = insertStation(data.nom, data.ville, data.active, data.frequence, data.temperature, data.humidite, data.pluviosite )
-    
-    if result:
-    
-        return {result} 
-    else: 
-    
-        return {"message": "Failed to insert data ", result: result }
+@app.post("/send_data")
+async def send_data(request: Request): 
+    try:
+        result = await request.json()
+        # Conocer el tipo de dato que es result
+        #print(type(result))   # str
 
+        # Convertir el string a un diccionario
+        result = loads(result)
+        #print(type(result))   # dico
+        
 
+        #print(result['temperature'])
+    
+        result_two = insertStation(result['nom'], result['ville'], result['active'], result['frequence'], result['temperature'], result['humidite'], result['pluviosite'])
+
+        if result_two:
+            return {"message": "Data inserted successfully"}
+        else:
+            return {"message": "Failed to insert data"}
+        
+        
+    except ValidationError as e:
+        return {"message": "Failed to insert data", "error": e.errors()} 
+    
 app.include_router(router)
