@@ -25,7 +25,8 @@ const createRow = (data, tbody) => {
     const td_station_name = document.createElement('td');
     const td_ville = document.createElement('td');
     const td_temperature = document.createElement('td');
-    const td_humidity = document.createElement('td');
+    const td_humidity_sol = document.createElement('td');
+    const td_humidity_aire = document.createElement('td');
     const td_pluviosite = document.createElement('td');
 
     tr.className = tr_class;
@@ -45,8 +46,11 @@ const createRow = (data, tbody) => {
     td_temperature.textContent = data[7] + "°C";
     td_temperature.className = td_class;
 
-    td_humidity.textContent = data[8] + "%"; 
-    td_humidity.className = td_class;
+    td_humidity_sol.textContent = data[8] + "%"; 
+    td_humidity_sol.className = td_class;
+
+    td_humidity_aire.textContent = data[9] + "%"; 
+    td_humidity_aire.className = td_class;
 
     td_pluviosite.textContent = data[9] + "mm"; 
     td_pluviosite.className = td_class; 
@@ -56,7 +60,8 @@ const createRow = (data, tbody) => {
     tr.appendChild(td_station_name);
     tr.appendChild(td_ville);
     tr.appendChild(td_temperature);
-    tr.appendChild(td_humidity);
+    tr.appendChild(td_humidity_sol);
+    tr.appendChild(td_humidity_aire);
     tr.appendChild(td_pluviosite);
 
     tbody.appendChild(tr);
@@ -72,10 +77,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const data = await getData();
     
+    console.log(data)
     // Inside all_data we store the data from the server like this: [[data[6],data[7]], [data[6],data[7]], ...]
     data.forEach(element => {
         all_data.push([element[6], element[7]]);
     });
+    setTimeout(() => {
+        data.forEach(element => {
+            all_data.push([element[6], element[7]]);
+        });
+    }, 1000);
+   
 
     if (data === "Error, could not get data from the server") {
         alert(data);
@@ -83,6 +95,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         data.forEach(element => {
             createRow(element, tbody);
         });
+        
+        setTimeout(() => {
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+            counter = 1;
+            data.forEach(element => {
+                
+                createRow(element, tbody);
+            });
+        }, 1000);
+        // On va effacer tous les éléments enfants du tbody
+
+
     }
 
 });

@@ -70,10 +70,10 @@ async def send_data(request: Request):
 
         #print(result['temperature'])
     
-        result_two = insertStation(result['nom'], result['ville'], result['active'], result['frequence'], result['temperature'], result['humidite'], result['pluviosite'])
+        result_two = insertStation(result['smc'], result['ville'], result['active'], result['frequence'], result['temperature'], result['humidite_sol'], result['humidite_air'], result['pluviosite'])
 
         if result_two:
-            return {"message": "Data inserted successfully"}
+            return {"message": "Data inserted successfully" + str(result_two)}
         else:
             return {"message": "Failed to insert data"}
         
