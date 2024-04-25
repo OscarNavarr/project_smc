@@ -64,7 +64,7 @@ async def send_data(request: Request):
         #print(type(result))   # str
 
         # Convertir el string a un diccionario
-        result = loads(result)
+        #result = loads(result)
         #print(type(result))   # dico
         
 

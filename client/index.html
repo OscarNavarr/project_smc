@@ -11,34 +11,52 @@
     
 </head>
 <body>
-   
-    <div class="flex flex-col">
-        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8 ">
-                <div class="overflow-hidden flex justify-center">
-                    <table class="w-[70vw] text-left text-sm font-light text-surface dark:text-white rounded-t-xl ">
-                        <thead class="border-b border-neutral-200 font-medium dark:border-white/10 bg-[#808080] text-white rounded-t-xl">
-                            <tr>
-                                <th scope="col" class="px-6 py-4">#</th>
-                                <th scope="col" class="px-6 py-4">Récolte</th>
-                                <th scope="col" class="px-6 py-4">Nom Station</th>
-                                <th scope="col" class="px-6 py-4">Ville</th>
-                                <th scope="col" class="px-6 py-4">Température</th>
-                                <th scope="col" class="px-6 py-4">Humidité du Sol</th>
-                                <th scope="col" class="px-6 py-4">Humidité de l'air</th>
-                                <th scope="col" class="px-6 py-4">Pluviosité</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+   <div class="bg_images_special h-[100vh]">
+        <div class="flex h-[100vh] bg_degred">
+            <div class="w-[calc(100vw-50rem)] h-[100vh]  flex justify-center items-center">
+                <div class="">
+                    <div class="flex justify-center">
+                        <h1 class="text-white text-[10rem]">22</h1>
+                        <p class="text-white text-[7rem]">°C</p>
+                    </div>
+                    <div>
+                        <h2 class="text-white text-[3.5rem] text-center">Dernière Mesure</h2>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div> 
+            
+            <div class="w-[100%] glassmorphism_bg rounded-l-[3rem] p-[3rem]">
+                <div class="flex flex-col">
+                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8 ">
+                            <div class="overflow-hidden flex justify-center rounded-[1rem]">
+                                <table class="w-full text-left text-sm font-light text-surface dark:text-white rounded-t-xl ">
+                                    <thead class="border-b border-neutral-200 font-medium dark:border-white/10 thead-glass-bg text-white rounded-t-xl">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-4">#</th>
+                                            <th scope="col" class="px-6 py-4">Récolte</th>
+                                            <th scope="col" class="px-6 py-4">Nom Station</th>
+                                            <th scope="col" class="px-6 py-4">Ville</th>
+                                            <th scope="col" class="px-6 py-4">Température</th>
+                                            <th scope="col" class="px-6 py-4">Humidité du Sol</th>
+                                            <th scope="col" class="px-6 py-4">Humidité de l'air</th>
+                                            <th scope="col" class="px-6 py-4">Pluviosité</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="w-full flex justify-center">
+                    <div id="curve_chart" style="width: 100%; height: 500px" ></div>
+                </div>
+            </div>
 
-    <div class="w-full flex justify-center">
-        <div id="curve_chart" style="min-width: 80%; height: 500px" ></div>
-    </div>
+        </div>
+   </div>
     
     <script src="/static/js_code.js"></script>
     <script type="text/javascript" async>
@@ -51,10 +69,41 @@
           var options = {
             title: 'Évolution de la Température',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom'},
+            
+            pointSize: 10,
+            vAxis: {
+                title: 'Température',
+                textStyle: { color: '#fff' },
+                titleTextStyle: { color: '#fff' },
+                areaOpacity: 0.2,
+                viewWindow: {
+                    min: 0,
+                },
+                gridlines: {
+                    color: '#fff',
+                },
+            },
+           
+            hAxis: {
+                title: 'Jours',
+                textStyle: { color: '#fff' },
+                titleTextStyle: { color: '#fff' },
+            },
+            backgroundColor: 'transparent',
+            colors: ['#fff'],
+            
+            titleTextStyle: {
+                color: '#fff',
+                fontSize: 20,
+            },
+            legendTextStyle: {
+                color: '#fff',
+                fontSize: 14,
+            },
           };
   
-          var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+          var chart = new google.visualization.AreaChart(document.getElementById('curve_chart'));
   
           chart.draw(data, options);
         }

@@ -37,7 +37,7 @@ const createRow = (data, tbody) => {
     recolte.textContent = data[6];
     recolte.className = td_class;
     
-    td_station_name.textContent = data[1];
+    td_station_name.textContent = "Station 21";
     td_station_name.className = td_class;
     
     td_ville.textContent = data[2];

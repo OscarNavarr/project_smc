@@ -1,3 +1,33 @@
 tbody tr:nth-child(even) {
     background-color: #f3f4f6; /* Color gris claro */
 }
+
+.bg_images_special {
+    background-image: url('./img/weather.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: top center;
+}
+
+.glassmorphism_bg{
+  background: rgba( 160, 153, 153, 0.35 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.thead-glass-bg{
+  background: rgba( 160, 153, 153, 0.35 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  border-radius: 10px;
+}
+
+.bg_degred{
+  background: rgb(2,0,36);
+background: linear-gradient(10deg, rgba(2,0,36,0.43461134453781514) 31%, rgba(255,255,255,0) 66%);
+}
+
