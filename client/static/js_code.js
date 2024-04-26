@@ -45,6 +45,8 @@ const createRow = (data, tbody) => {
 
     td_temperature.textContent = data[7] + "°C";
     td_temperature.className = td_class;
+    td_temperature.setAttribute("id", "temperature_" + counter);
+
 
     td_humidity_sol.textContent = data[8] + "%"; 
     td_humidity_sol.className = td_class;
@@ -74,41 +76,57 @@ var all_data = [];
 document.addEventListener('DOMContentLoaded', async () => {
     
     const tbody = document.querySelector('tbody');
-
-    const data = await getData();
     
-    console.log(data)
-    // Inside all_data we store the data from the server like this: [[data[6],data[7]], [data[6],data[7]], ...]
-    data.forEach(element => {
+    // Obtener datos iniciales
+    const initialData = await getData();
+
+    initialData.forEach(element => {
         all_data.push([element[6], element[7]]);
     });
-    setTimeout(() => {
-        data.forEach(element => {
+    setInterval(async () => {
+        const newDataForAllData = await getData();
+
+        newDataForAllData.forEach(element => {
             all_data.push([element[6], element[7]]);
         });
     }, 1000);
-   
 
-    if (data === "Error, could not get data from the server") {
-        alert(data);
-    } else {
-        data.forEach(element => {
+    // Manejar error si hay problema al obtener datos
+    if (initialData === "Error, could not get data from the server") {
+        alert(initialData);
+        return;
+    }
+    
+    // Inicializar tabla con los datos iniciales
+    initialData.forEach(element => {
+        createRow(element, tbody);
+    });
+
+    // Actualizar datos y tabla cada cierto intervalo de tiempo
+    setInterval(async () => {
+        const newData = await getData(); // Obtener nuevos datos del servidor
+        
+        // Manejar error si hay problema al obtener nuevos datos
+        if (newData === "Error, could not get data from the server") {
+            alert(newData);
+            return;
+        }
+
+        // Limpiar tabla
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+        
+        // Reiniciar contador
+        counter = 1;
+        
+        // Crear nuevas filas con los nuevos datos
+        newData.forEach(element => {
             createRow(element, tbody);
         });
+
+
+        document.getElementById("h1_temp").innerHTML = newData[0][7];
         
-        setTimeout(() => {
-            while (tbody.firstChild) {
-                tbody.removeChild(tbody.firstChild);
-            }
-            counter = 1;
-            data.forEach(element => {
-                
-                createRow(element, tbody);
-            });
-        }, 1000);
-        // On va effacer tous les éléments enfants du tbody
-
-
-    }
-
+    }, 1000);
 });

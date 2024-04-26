@@ -47,7 +47,7 @@ def selectAllStations():
     try:
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
-        c.execute("SELECT * FROM STATIONS INNER JOIN RELEVES ON STATIONS.id = RELEVES.smc")
+        c.execute("SELECT * FROM STATIONS INNER JOIN RELEVES ON STATIONS.id = RELEVES.smc ORDER BY RELEVES.récolte DESC")
         result = c.fetchall()
         return result
     except Error as e:

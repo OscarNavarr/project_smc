@@ -14,7 +14,7 @@ def connectBase():
                  fréquence   int) ''')
         c.execute('''CREATE TABLE IF NOT EXISTS RELEVES
                 (smc         text,
-                 récolte     date default current_date,
+                 récolte     date default CURRENT_TIMESTAMP,
                  température float,
                  humidité_sol    float,
                  humidité_air    float,
