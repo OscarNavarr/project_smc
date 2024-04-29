@@ -54,7 +54,7 @@ const createRow = (data, tbody) => {
     td_humidity_aire.textContent = data[9] + "%"; 
     td_humidity_aire.className = td_class;
 
-    td_pluviosite.textContent = data[9] + "mm"; 
+    td_pluviosite.textContent = data[10] == true ? "Oui" : "Non"; 
     td_pluviosite.className = td_class; 
 
     tr.appendChild(td_number);
@@ -70,7 +70,7 @@ const createRow = (data, tbody) => {
     counter++;
 }
 
-var all_data = [];
+const all_data = [];
 
 // We wait that the DOM is loaded before we call the function
 document.addEventListener('DOMContentLoaded', async () => {
@@ -80,13 +80,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Obtener datos iniciales
     const initialData = await getData();
 
-    initialData.forEach(element => {
+    // On va inverser les données pour avoir les dernières données en premier
+    const initialDataReverse = initialData.reverse();
+
+
+    initialDataReverse.forEach(element => {
         all_data.push([element[6], element[7]]);
     });
     setInterval(async () => {
         const newDataForAllData = await getData();
 
-        newDataForAllData.forEach(element => {
+        // On va inverser les données pour avoir les dernières données en premier
+        const newDataForAllDataReverse = newDataForAllData.reverse();
+
+        newDataForAllDataReverse.forEach(element => {
             all_data.push([element[6], element[7]]);
         });
     }, 1000);
@@ -96,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert(initialData);
         return;
     }
-    
+
     // Inicializar tabla con los datos iniciales
     initialData.forEach(element => {
         createRow(element, tbody);

@@ -57,53 +57,77 @@
     
     <script src="/static/js_code.js"></script>
     <script type="text/javascript" async>
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-  
-        function drawChart() {
-          var data = google.visualization.arrayToDataTable([['Mois', 'Température'], ...all_data ]);
-
-          var options = {
-            title: 'Évolution de la Température',
-            curveType: 'function',
-            legend: { position: 'bottom'},
-            
-            pointSize: 10,
-            vAxis: {
-                title: 'Température',
-                textStyle: { color: '#fff' },
-                titleTextStyle: { color: '#fff' },
-                areaOpacity: 0.2,
-                viewWindow: {
-                    min: 0,
+        google.charts.load('current');
+      
+        function drawVisualization(data) {
+            var options = {
+                title: 'Évolution de la Température',
+                curveType: 'function',
+                legend: { position: 'bottom'},
+                pointSize: 10,
+                vAxis: {
+                    title: 'Température',
+                    textStyle: { color: '#fff' },
+                    titleTextStyle: { color: '#fff' },
+                    areaOpacity: 0.2,
+                    viewWindow: {
+                        min: 0,
+                    },
+                    gridlines: {
+                        color: '#fff',
+                    },
                 },
-                gridlines: {
+                hAxis: {
+                    title: 'Jours',
+                    textStyle: { color: '#fff' },
+                    titleTextStyle: { color: '#fff' },
+                },
+                backgroundColor: 'transparent',
+                colors: ['#fff'],
+                titleTextStyle: {
                     color: '#fff',
+                    fontSize: 20,
                 },
-            },
-           
-            hAxis: {
-                title: 'Jours',
-                textStyle: { color: '#fff' },
-                titleTextStyle: { color: '#fff' },
-            },
-            backgroundColor: 'transparent',
-            colors: ['#fff'],
-            
-            titleTextStyle: {
-                color: '#fff',
-                fontSize: 20,
-            },
-            legendTextStyle: {
-                color: '#fff',
-                fontSize: 14,
-            },
-          };
-  
-          var chart = new google.visualization.AreaChart(document.getElementById('curve_chart'));
-  
-          chart.draw(data, options);
+                legendTextStyle: {
+                    color: '#fff',
+                    fontSize: 14,
+                },
+                animation: {
+                    duration: 1000, 
+                    easing: 'out',
+                    startup: true, 
+                    refreshInterval: 1000 
+                }
+            };
+                
+            google.visualization.drawChart({
+                "containerId": "curve_chart",
+                "dataTable": [['Mois', 'Température'], ...data ],
+                "refreshInterval": 5,
+                "chartType": "AreaChart",
+                "options": options
+            });
         }
+    
+        google.charts.setOnLoadCallback(() => drawVisualization(all_data));
+    
+        function actualizarGrafico(data) {
+            // Filtrar los datos para obtener solo los datos que no existen en all_data
+            const newDataFiltered = data.filter((item) => {
+                const index = all_data.findIndex((item2) => item2[0] === item[0]);
+                return index === -1;
+            });
+            
+            console.log(newDataFiltered);
+            if (newDataFiltered.length === 0) return;
+    
+            drawVisualization(newDataFiltered);
+        }
+    
+        // Iniciar la actualización automática del gráfico cada segundo
+        setInterval(() => actualizarGrafico(all_data), 1000);
     </script>
+    
+    
 </body>
 </html>

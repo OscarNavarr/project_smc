@@ -10,6 +10,7 @@ from json import JSONDecodeError, loads
 from database import *
 from handle_bd_function import *
 
+import json
 
 class Item(BaseModel):
     nom: str
