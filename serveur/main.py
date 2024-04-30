@@ -11,6 +11,12 @@ from database import *
 from handle_bd_function import *
 
 import json
+# Import chart_generator from the client
+from helpers.chart_generator import chart_generator
+
+
+
+
 
 class Item(BaseModel):
     nom: str
@@ -42,7 +48,12 @@ app.mount("/static", StaticFiles(directory="../client/static"), name="static")
 router = APIRouter()
 
 conn = connectBase()
-print(conn)
+
+# Call the function selectAllStations from the client
+query_result = selectAllStations()
+
+# Call the function chart_generator from the client
+chart_generator(query_result)
 
 @app.get("/",response_class=HTMLResponse)
 
@@ -53,8 +64,7 @@ def root():
 
 @app.get("/get_all_data")
 def get_all_data():
-    result = selectAllStations()
-    return result
+    return query_result
 
 
 @app.post("/send_data")
