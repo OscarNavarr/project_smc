@@ -26,8 +26,8 @@ def insertStation(smc,ville,active,fréquence,température,humidite_sol, humidit
         c.execute("INSERT INTO RELEVES (smc,température,humidité_sol ,humidité_air,pluviosité) VALUES (?,?,?,?,?)",(smc,température,humidite_sol, humidite_air,pluviosité))
 
         conn.commit()
-        # retornar el ultimo id insertado
 
+        # retornar el ultimo id insertado
         return c.lastrowid
         
 

@@ -3,7 +3,7 @@ tbody tr:nth-child(even) {
 }
 
 .bg_images_special {
-    background-image: url('./img/weather.jpg');
+    background-image: url('../img/weather.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -31,3 +31,23 @@ tbody tr:nth-child(even) {
 background: linear-gradient(10deg, rgba(2,0,36,0.43461134453781514) 31%, rgba(255,255,255,0) 66%);
 }
 
+.up-and-down-animation {
+  animation: up-and-down 1.5s infinite;
+}
+
+.up-and-down-animation:hover {
+  animation-play-state: paused;
+}
+
+@keyframes up-and-down {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.bg-modal-container{
+  background-color:rgba(0, 0, 0, 0.42);
+}

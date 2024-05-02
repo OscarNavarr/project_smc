@@ -3,28 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil</title>
+    <meta name="description" content="Weather Stations's Data">
+    <meta name="keywords" content="Weather, Data, Weather Data">
+    <meta name="author" content="Oscar Navarro">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <title>Weather Stations</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+
     <!-- Google Charts CDN -->
-    <link rel="stylesheet" href="/static/styles.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
 <body>
-    <img src="static/img/charts/test.png" class="w-[100%]" alt="chart">
-   <div class="bg_images_special h-[100vh]">
+    
+   <div class="bg_images_special h-[100vh] relative">
+        <!-- Modal component-->
+        <div id="matplotlib_modal_component" class="hidden fixed z-10 inset-0 h-[100vh] w-[100vw] bg-modal-container">
+            <div class="w-full h-full flex justify-center items-center">
+                <img id="img_matplotlib_chart" src="" class="w-[70%] h-[30rem]" alt="chart">
+            </div>
+        </div>
+        <!-- Fin modal component-->
+
         <div class="flex h-[100vh] bg_degred">
             <div class="w-[calc(100vw-50rem)] h-[100vh]  flex justify-center items-center">
                 <div class="">
                     <div class="flex justify-center">
-                        <h1 id="h1_temp" class="text-white text-[10rem]">22</h1>
+                        <h1 id="h1_temp" class="text-white text-[10rem]">0</h1>
                         <p class="text-white text-[7rem]">°C</p>
                     </div>
-                    <div>
+                    <div class="w-full">
                         <h2 class="text-white text-[3.5rem] text-center">Dernière Mesure</h2>
+                        <div class="w-full flex justify-center mt-[2rem]">
+                            <button type="button" id="show_matplotlib_chart" class="text-white text-[1.4rem] rounded-[2rem] glassmorphism_bg p-[1.5rem] up-and-down-animation">Montrer le graphique fait avec matplotlib</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,12 +78,12 @@
                     <div id="curve_chart" style="width: 100%; height: 500px" ></div>
                 </div>
                 
-               
             </div>
         </div>
    </div>
     
-    <script src="/static/js_code.js"></script>
+    <script src="/static/js/js_code.js"></script>
+    <script src="/static/js/handle_btn_show_chart.js"></script>
     <script type="text/javascript" async>
         google.charts.load('current');
       
@@ -119,21 +139,6 @@
     
         google.charts.setOnLoadCallback(() => drawVisualization(all_data));
     
-        function actualizarGrafico(data) {
-            // Filtrar los datos para obtener solo los datos que no existen en all_data
-            const newDataFiltered = data.filter((item) => {
-                const index = all_data.findIndex((item2) => item2[0] === item[0]);
-                return index === -1;
-            });
-            
-            console.log(newDataFiltered);
-            if (newDataFiltered.length === 0) return;
-    
-            drawVisualization(newDataFiltered);
-        }
-    
-        // Iniciar la actualización automática del gráfico cada segundo
-        setInterval(() => actualizarGrafico(all_data), 1000);
     </script>
 
     

@@ -6,7 +6,7 @@ const td_class = "whitespace-nowrap px-6 py-4";
 
 // Function to get the data from the server
 const getData = async () => {
-    const response = await fetch('http://127.0.0.1:8000/get_all_data/');
+    const response = await fetch('/get_all_data/');
     const data = await response.json();
 
     if (!response.ok ) {
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tbody = document.querySelector('tbody');
     
     // Obtener datos iniciales
-    const initialData = await getData();
+    let initialData = await getData();
 
     // On va inverser les données pour avoir les dernières données en premier
     const initialDataReverse = initialData.reverse();
@@ -87,8 +87,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initialDataReverse.forEach(element => {
         all_data.push([element[6], element[7]]);
     });
+
     setInterval(async () => {
-        const newDataForAllData = await getData();
+        let newDataForAllData = await getData();
 
         // On va inverser les données pour avoir les dernières données en premier
         const newDataForAllDataReverse = newDataForAllData.reverse();
@@ -111,8 +112,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Actualizar datos y tabla cada cierto intervalo de tiempo
     setInterval(async () => {
-        const newData = await getData(); // Obtener nuevos datos del servidor
+        let newData = await getData(); // Obtener nuevos datos del servidor
         
+
         // Manejar error si hay problema al obtener nuevos datos
         if (newData === "Error, could not get data from the server") {
             alert(newData);

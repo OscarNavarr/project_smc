@@ -55,6 +55,7 @@ query_result = selectAllStations()
 # Call the function chart_generator from the client
 chart_generator(query_result)
 
+
 @app.get("/",response_class=HTMLResponse)
 
 def root():
@@ -64,8 +65,15 @@ def root():
 
 @app.get("/get_all_data")
 def get_all_data():
+    # Call the function selectAllStations from the client
+    query_result = selectAllStations()
     return query_result
 
+@app.get("/get_chart")
+def get_chart():
+    # Call the function selectAllStations from the client
+    query_result = selectAllStations()
+    return chart_generator(query_result)
 
 @app.post("/send_data")
 async def send_data(request: Request): 
@@ -84,7 +92,7 @@ async def send_data(request: Request):
         result_two = insertStation(result['smc'], result['ville'], result['active'], result['frequence'], result['temperature'], result['humidite_sol'], result['humidite_air'], result['pluviosite'])
 
         if result_two:
-            return {"message": "Data inserted successfully" + str(result_two)}
+            return {"message": "Data inserted successfully " + str(result_two)}
         else:
             return {"message": "Failed to insert data"}
         
