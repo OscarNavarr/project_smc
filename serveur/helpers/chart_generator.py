@@ -19,18 +19,17 @@ def chart_generator(query_result):
 
     # Create the plot
     plt.figure(figsize=(20,5))
-    
-    plt.subplot(133)
-    plt.plot(names, values)
-    plt.tight_layout()
-    plt.suptitle('Variation de la température en fonction du temps')
-    plt.xticks(rotation=45)
-    plt.xlabel('Date')
-    plt.ylabel('Temperature')
-    plt.grid()
-    plt.tight_layout()
 
-
+    plt.subplot(133)                # the first subplot in the first figure
+    plt.plot(names, values)         # plot the values
+    plt.tight_layout()              # adjust the layout
+    plt.suptitle('Variation de la température en fonction du temps')    # Title of the plot
+    plt.xticks(rotation=45)         # Rotate the x-axis labels
+    plt.xlabel('Date')              # x-axis label
+    plt.ylabel('Temperature')       # y-axis label
+    plt.grid()                      # Add a grid to the plot
+    plt.tight_layout()              # adjust the layout
+    plt.subplots_adjust( left=-2, right=0.95, )     # adjust the layout
 
     
     # Check if in ../client/static/img/charts/ exist the image test.png
