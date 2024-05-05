@@ -25,10 +25,36 @@
 <body>
     
    <div class="bg_images_special h-[100vh] relative">
-        <!-- Modal component-->
+        <!-- Modal component to show matplotlib charts-->
         <div id="matplotlib_modal_component" class="hidden fixed z-10 inset-0 h-[100vh] w-[100vw] bg-modal-container">
             <div class="w-full h-full flex justify-center items-center">
                 <img id="img_matplotlib_chart" src="" class="w-[70%] h-[30rem]" alt="chart">
+            </div>
+        </div>
+        <!-- Fin modal component-->
+
+        <!-- Modal component to create a new station-->
+        <div id="create_station_modal" class="hidden fixed z-10 inset-0 h-[100vh] w-[100vw] bg-modal-container">
+            <div class="w-full h-full flex justify-center items-center">
+                <div class="w-[30rem]  bg-white rounded-[1rem] p-[2rem] flex flex-col justify-center items-center">
+                    <div class="w-full flex justify-end ">
+                        <button id="close_create_station_modal" class="text-gray-400 hover:text-gray-500 text-[1.3rem] rounded-[2rem] py-2 px-4 bx_shadow_special">X</button>
+                    </div>
+                    <h2 class="text-[2rem] text-center">Ajouter une nouvelle station</h2>
+                    <form id="form_create_station" class="w-full mt-[2rem] flex flex-col justify-center items-center">
+                       
+                        <label for="station_name" class="pr-[65%] mb-2">Nom de la station</label>
+                        <input type="text" name="station_name" id="station_name" class="w-full h-[3rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" placeholder="Nom de la station" required>
+                        
+                        <label for="city" class="pr-[85%] mb-2">Ville</label>
+                        <input type="text" name="city" id="city" class="w-full h-[3rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" placeholder="Ville" required>
+                        
+                        <label for="frequency" class="pr-[58%] mb-2">Fréquence de récolte</label>
+                        <input type="number" name="frequency" id="frequency" class="w-full h-[3rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" placeholder="Fréquence de récolte" required>
+
+                        <button type="submit" class="w-[20rem] h-[3rem] bg-blue-500 text-white rounded-[1rem] mt-[1rem] mb-[2rem]">Ajouter</button>
+                    </form>
+                </div>
             </div>
         </div>
         <!-- Fin modal component-->
@@ -44,6 +70,9 @@
                         <h2 class="text-white text-[3.5rem] text-center">Dernière Mesure</h2>
                         <div class="w-full flex justify-center mt-[2rem]">
                             <button type="button" id="show_matplotlib_chart" class="text-white text-[1.4rem] rounded-[2rem] glassmorphism_bg p-[1.5rem] up-and-down-animation">Montrer le graphique fait avec matplotlib</button>
+                        </div>
+                        <div class="w-full flex justify-center mt-[2rem]">
+                            <button id="btn_show_modal_create_station" class="text-white text-[1.4rem] rounded-[2rem] glassmorphism_bg p-[1.5rem] ">Ajouter une nouvelle station</button>
                         </div>
                     </div>
                 </div>
@@ -84,6 +113,8 @@
     
     <script src="/static/js/js_code.js"></script>
     <script src="/static/js/handle_btn_show_chart.js"></script>
+    <script src="/static/js/handle_create_stations_form/handle_btn_create_new_stations.js"></script>
+    <script src="/static/js/handle_create_stations_form/handle_form.js"></script>
     <script type="text/javascript" async>
         google.charts.load('current');
         function drawVisualization(data) {
@@ -111,6 +142,29 @@
                     viewWindow: {
                         min: 0,
                     },
+                    direction: -1,
+                    explorer: {
+                        axis: 'horizontal',
+                        keepInBounds: true,
+                        maxZoomIn: 4.0,
+                        maxZoomOut: 4.0,
+                        actions: ['dragToPan', 'rightClickToReset'],
+                        axisColor: '#fff',
+                        backgroundColor: 'transparent',
+                        maxZoomOut: 4.0,
+                        maxZoomIn: 4.0,
+                    },
+                },
+                explorer: {
+                    axis: 'horizontal',
+                    keepInBounds: true,
+                    maxZoomIn: 4.0,
+                    maxZoomOut: 4.0,
+                    actions: ['dragToPan', 'rightClickToReset'],
+                    axisColor: '#fff',
+                    backgroundColor: 'transparent',
+                    maxZoomOut: 4.0,
+                    maxZoomIn: 4.0,
                 },
                 backgroundColor: 'transparent',
                 colors: ['#fff'],
@@ -140,6 +194,7 @@
                 "options": options
             });
         }
+        console.log(all_data);
         google.charts.setOnLoadCallback(() => drawVisualization(all_data)); 
         
     

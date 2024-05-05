@@ -51,3 +51,8 @@ background: linear-gradient(10deg, rgba(2,0,36,0.43461134453781514) 31%, rgba(25
 .bg-modal-container{
   background-color:rgba(0, 0, 0, 0.42);
 }
+.bx_shadow_special{
+  box-shadow: 2px 1px 10px -5px rgba(0, 0, 0,1);
+-webkit-box-shadow: 2px 1px 10px -5px rgba(0, 0, 0,1);
+-moz-box-shadow: 2px 1px 10px -5px rgba(0, 0, 0,1);
+}

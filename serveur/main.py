@@ -34,6 +34,8 @@ origins = [
     "http://localhost",
     "http://localhost:8000"
     "http://localhost:8080",
+    "http://0.0.0.0:8000",
+    "http://10.7.4.134"
 ]
 
 app.add_middleware(
@@ -95,7 +97,27 @@ async def send_data(request: Request):
             return {"message": "Data inserted successfully " + str(result_two)}
         else:
             return {"message": "Failed to insert data"}
-        
+           
+    except ValidationError as e:
+        return {"message": "Failed to insert data", "error": e.errors()} 
+    
+
+@app.post("/create_station")
+async def send_data_to_create_stations(request: Request): 
+    try:
+        # Get the data from the request
+        result = await request.json()
+
+        # Convert the string to a dictionary
+        #result = loads(result)
+
+        # Insert the data into the database
+        query_result = createStation(result['station_name'], result['city'], result['frequency'])
+
+        if query_result and query_result["saved"]:
+            return {"message": "Station created successfully", "id": query_result["id"]}
+        else:
+            return {"message": "Failed to create station"}
         
     except ValidationError as e:
         return {"message": "Failed to insert data", "error": e.errors()} 

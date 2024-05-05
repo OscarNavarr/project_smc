@@ -3,6 +3,8 @@
 import sqlite3
 from sqlite3 import DataError
 from sqlite3 import Error
+import uuid 
+
 '''
     This function allow us insert the data in the database STATIONS
     @param id: the id of the station from uuid library
@@ -34,6 +36,31 @@ def insertStation(smc,ville,active,fréquence,température,humidite_sol, humidit
     except Error as e:
         return e 
     
+
+'''
+    This function allow us to create a station in the database
+    @param station_name: the name of the station
+    @param city: the city of the station
+    @param frequency: the frequency of the station
+    @return: true if the station is created, false if not
+'''
+
+def createStation(station_name, city, frequency):
+    try:
+        new_id = uuid.uuid4()
+        conn = sqlite3.connect("database.db")
+        c = conn.cursor()
+        result = c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,1,?)",(new_id,station_name,city,frequency))
+        conn.commit()
+
+        if result:
+            return {"saved": True, "id": new_id}
+        else:
+            return {"saved": False, "id": None}
+        
+    except Error as e:
+        print(e)
+        return False
 
 
 

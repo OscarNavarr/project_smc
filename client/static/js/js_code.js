@@ -80,25 +80,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Obtener datos iniciales
     let initialData = await getData();
 
-    // On va inverser les données pour avoir les dernières données en premier
-    const initialDataReverse = initialData.reverse();
 
-
-    initialDataReverse.forEach(element => {
+    initialData.forEach(element => {
         all_data.push([element[6], element[7]]);
     });
-
+    
     setInterval(async () => {
         let newDataForAllData = await getData();
 
-        // On va inverser les données pour avoir les dernières données en premier
-        const newDataForAllDataReverse = newDataForAllData.reverse();
-
-        newDataForAllDataReverse.forEach(element => {
+        newDataForAllData.forEach(element => {
             all_data.push([element[6], element[7]]);
         });
     }, 1000);
-
+    
     // Manejar error si hay problema al obtener datos
     if (initialData === "Error, could not get data from the server") {
         alert(initialData);
@@ -109,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initialData.forEach(element => {
         createRow(element, tbody);
     });
-
+    
     // Actualizar datos y tabla cada cierto intervalo de tiempo
     setInterval(async () => {
         let newData = await getData(); // Obtener nuevos datos del servidor
@@ -138,4 +132,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById("h1_temp").innerHTML = newData[0][7];
         
     }, 1000);
+    
 });
