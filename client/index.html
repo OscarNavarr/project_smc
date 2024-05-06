@@ -41,6 +41,7 @@
                         <button id="close_create_station_modal" class="text-gray-400 hover:text-gray-500 text-[1.3rem] rounded-[2rem] py-2 px-4 bx_shadow_special">X</button>
                     </div>
                     <h2 class="text-[2rem] text-center">Ajouter une nouvelle station</h2>
+                    <p id="message_form_request"></p>
                     <form id="form_create_station" class="w-full mt-[2rem] flex flex-col justify-center items-center">
                        
                         <label for="station_name" class="pr-[65%] mb-2">Nom de la station</label>
@@ -78,22 +79,38 @@
                 </div>
             </div>
             
-            <div class="w-[100%] glassmorphism_bg rounded-l-[3rem] p-[3rem]">
+            <div class="w-[100%] glassmorphism_bg rounded-l-[3rem] py-[1rem] px-[3rem]">
+
+                <div class="w-full flex justify-center mb-[1.5rem]">
+                    <div class=" glassmorphism_bg rounded-[2rem] w-[25rem] h-[3rem] ">
+                        <ul class="flex justify-center items-center relative w-full h-full top__menu_ul">
+                            <li class="li_hover w-full">
+                                <button id="btn_show_table_donnees" class="active text-white p-[0.2rem] rounded-t-lg">Montrer les données</button>
+                            </li>
+                            
+                            <li class="li_hover w-full">
+                                <button id="btn_show_table_stations" class=" text-white p-[0.2rem] rounded-t-lg">Montrer les stations</button>
+                            </li>
+
+                            <div id="div_slide" class="animation_btns_options start_home"></div>
+                        </ul>
+                    </div>
+                </div>
                 <div class="flex flex-col">
                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8 ">
                             <div class="overflow-y-scroll max-h-[20rem] flex justify-center rounded-[1rem]">
-                                <table class="w-full text-left text-sm font-light text-surface dark:text-white rounded-t-xl ">
-                                    <thead class="border-b border-neutral-200 font-medium dark:border-white/10 thead-glass-bg text-white rounded-t-xl">
+                                <table class="w-full text-left text-sm font-light text-surface dark:text-white ">
+                                    <thead class="border-b border-neutral-200 font-medium dark:border-white/10 thead-glass-bg text-white ">
                                         <tr>
-                                            <th scope="col" class="px-6 py-4">#</th>
-                                            <th scope="col" class="px-6 py-4">Récolte</th>
-                                            <th scope="col" class="px-6 py-4">Nom Station</th>
-                                            <th scope="col" class="px-6 py-4">Ville</th>
-                                            <th scope="col" class="px-6 py-4">Température</th>
-                                            <th scope="col" class="px-6 py-4">Humidité du Sol</th>
-                                            <th scope="col" class="px-6 py-4">Humidité de l'air</th>
-                                            <th scope="col" class="px-6 py-4">Pluviosité</th>
+                                            <th id="first_col_name" scope="col" class="px-6 py-4">#</th>
+                                            <th id="second_col_name" scope="col" class="px-6 py-4">Récolte</th>
+                                            <th id="third_col_name" scope="col" class="px-6 py-4">Nom Station</th>
+                                            <th id="fourth_col_name" scope="col" class="px-6 py-4">Ville</th>
+                                            <th id="fifth_col_name" scope="col" class="px-6 py-4">Température</th>
+                                            <th id="sixth_col_name" scope="col" class="px-6 py-4">Humidité du Sol</th>
+                                            <th id="seventh_col_name" scope="col" class="px-6 py-4">Humidité de l'air</th>
+                                            <th id="eighth_col_name" scope="col" class="px-6 py-4">Pluviosité</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -115,6 +132,7 @@
     <script src="/static/js/handle_btn_show_chart.js"></script>
     <script src="/static/js/handle_create_stations_form/handle_btn_create_new_stations.js"></script>
     <script src="/static/js/handle_create_stations_form/handle_form.js"></script>
+    <script src="/static/js/handle_btns_at_top.js"></script>
     <script type="text/javascript" async>
         google.charts.load('current');
         function drawVisualization(data) {
@@ -217,7 +235,5 @@
         */
     </script>
 
-    
-    
 </body>
 </html>

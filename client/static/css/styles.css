@@ -23,7 +23,6 @@ tbody tr:nth-child(even) {
   background: rgba( 160, 153, 153, 0.35 );
   backdrop-filter: blur( 20px );
   -webkit-backdrop-filter: blur( 20px );
-  border-radius: 10px;
 }
 
 .bg_degred{
@@ -55,4 +54,50 @@ background: linear-gradient(10deg, rgba(2,0,36,0.43461134453781514) 31%, rgba(25
   box-shadow: 2px 1px 10px -5px rgba(0, 0, 0,1);
 -webkit-box-shadow: 2px 1px 10px -5px rgba(0, 0, 0,1);
 -moz-box-shadow: 2px 1px 10px -5px rgba(0, 0, 0,1);
+}
+
+ul .animation_btns_options{
+  position: absolute;
+	height: 100%;
+	top: 0rem;
+	z-index: 0;
+	background: #00000034;
+	border-radius: 2rem;
+	transition: all .5s ease 0s;
+	cursor: pointer;
+}
+
+
+
+.top__menu_ul li{
+  position: relative;
+  z-index: 10;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.li_hover{
+  text-align: center;
+	transition: all .5s ease 0.2s;
+}
+
+
+ul .start_home, li:nth-child(1):hover ~ .animation_btns_options{
+	width: 12rem;
+	left: 0.1rem;
+}
+
+ul .start_station, li:nth-child(1):hover ~ .animation_btns_options{
+	width: 12rem;
+	left: 12.8rem;
+}
+
+ul li:nth-child(2):hover ~ .animation_btns_options{
+	width: 12rem;
+	left: 12.8rem;
+}
+
+ul li:nth-child(1):hover ~ .animation_btns_options{
+	width: 12rem;
+	left: 0.1rem;
 }

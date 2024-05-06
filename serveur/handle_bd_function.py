@@ -80,3 +80,18 @@ def selectAllStations():
     except Error as e:
         print(e)
         return None
+    
+'''
+    This function allow us to get all the stations in the database
+    @return: the list of the stations
+'''
+def showAllStations():
+    try:
+        conn = sqlite3.connect("database.db")
+        c = conn.cursor()
+        c.execute("SELECT * FROM STATIONS")
+        result = c.fetchall()
+        return result
+    except Error as e:
+        print(e)
+        return None

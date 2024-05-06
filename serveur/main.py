@@ -110,23 +110,25 @@ async def send_data_to_create_stations(request: Request):
         result = await request.json()
 
        
-        # Convert the string to a dictionary
-        #result = loads(result)
 
         # Insert the data into the database
-       
-        
-        
         query_result = createStation(result['station_name'], result['city'], result['frequency'])
 
         if query_result and query_result["saved"]:
             # Create the message to return
-            return {"message": "Station created successfully", "id": query_result["id"]}
+            return {"success": True,"message": "Station created successfully", "id": query_result["id"]}
         else:
-            return {"message": "Failed to create station"}
+            return {"success": False,"message": "Failed to create station"}
         
         
     except ValidationError as e:
         return {"message": "Failed to insert data", "error": e.errors()} 
     
+
+@app.get("/get_all_stations")
+def get_all_stations():
+    # Call the function selectAllStations from the client
+    query_result = showAllStations()
+    return query_result
+
 app.include_router(router)

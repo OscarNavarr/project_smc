@@ -46,7 +46,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get the data from the response
         const data = await response.json();
         
-        console.log(data);
+        if(data.success) {
+           
+            document.getElementById('form_create_station').reset();
+           
+            document.getElementById('message_form_request').textContent = data.message;
+
+            setTimeout(() => {
+                document.getElementById('message_form_request').textContent = '';
+            }, 3000);
+        }else {
+            document.getElementById('message_form_request').textContent = data.message;
+            setTimeout(() => {
+                document.getElementById('message_form_request').textContent = '';
+            }, 3000);
+        }
         
     });
 });

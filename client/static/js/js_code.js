@@ -1,8 +1,10 @@
 // This file is for getting the data from the server and displaying it on the client side
+var selection = "donnees";
+
 
 let counter = 1;
-const tr_class = "border-b border-neutral-200 dark:border-white/10";
-const td_class = "whitespace-nowrap px-6 py-4";
+const tr_class = "border-b border-neutral-200 dark:border-white/10 text-black";
+const td_class = "whitespace-nowrap px-6 py-4 text-black";
 
 // Function to get the data from the server
 const getData = async () => {
@@ -72,25 +74,29 @@ const createRow = (data, tbody) => {
 
 const all_data = [];
 
+
 // We wait that the DOM is loaded before we call the function
 document.addEventListener('DOMContentLoaded', async () => {
     
     const tbody = document.querySelector('tbody');
     
-    // Obtener datos iniciales
-    let initialData = await getData();
+    // Get the initial data
+    var initialData = await getData();
 
 
     initialData.forEach(element => {
         all_data.push([element[6], element[7]]);
     });
     
+    
     setInterval(async () => {
-        let newDataForAllData = await getData();
+        if (selection === "donnees") {
+            let newDataForAllData = await getData();
 
-        newDataForAllData.forEach(element => {
-            all_data.push([element[6], element[7]]);
-        });
+            newDataForAllData.forEach(element => {
+                all_data.push([element[6], element[7]]);
+            });
+        }
     }, 1000);
     
     // Manejar error si hay problema al obtener datos
@@ -104,33 +110,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         createRow(element, tbody);
     });
     
+    
     // Actualizar datos y tabla cada cierto intervalo de tiempo
     setInterval(async () => {
-        let newData = await getData(); // Obtener nuevos datos del servidor
-        
+        if (selection === "donnees") {
+            let newData = await getData(); // Obtener nuevos datos del servidor
+            
 
-        // Manejar error si hay problema al obtener nuevos datos
-        if (newData === "Error, could not get data from the server") {
-            alert(newData);
-            return;
-        }
+            // Manejar error si hay problema al obtener nuevos datos
+            if (newData === "Error, could not get data from the server") {
+                alert(newData);
+                return;
+            }
 
-        // Limpiar tabla
-        while (tbody.firstChild) {
-            tbody.removeChild(tbody.firstChild);
-        }
-        
-        // Reiniciar contador
-        counter = 1;
-        
-        // Crear nuevas filas con los nuevos datos
-        newData.forEach(element => {
-            createRow(element, tbody);
-        });
+            // Limpiar tabla
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+            
+            // Reiniciar contador
+            counter = 1;
+            
+            // Crear nuevas filas con los nuevos datos
+            newData.forEach(element => {
+                createRow(element, tbody);
+            });
 
 
-        document.getElementById("h1_temp").innerHTML = newData[0][7];
-        
+            document.getElementById("h1_temp").innerHTML = newData[0][7];
+        }    
     }, 1000);
     
 });
