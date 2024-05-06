@@ -6,26 +6,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError
-from json import JSONDecodeError, loads, dump
+from json import JSONDecodeError, loads
 from database import *
 from handle_bd_function import *
 
-import json
+import datetime
+
 # Import chart_generator from the client
 from helpers.chart_generator import chart_generator
-
-
-
-
-
-class Item(BaseModel):
-    nom: str
-    ville: str
-    active: bool
-    frequence: int
-    temperature: float
-    humidite: float
-    pluviosite: float
 
 
 app = FastAPI()
@@ -85,8 +73,11 @@ async def send_data(request: Request):
         
         # Convert the data to a dictionary
         result = loads(result)
+
+        # Get the current date
+        local_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-        result_two = insertReleves(result['smc'], result['temperature'], result['humidite_sol'], result['humidite_air'], result['pluviosite'])
+        result_two = insertReleves(result['smc'], local_date, result['temperature'], result['humidite_sol'], result['humidite_air'], result['pluviosite'])
 
         if result_two:
             return {"message": "Data inserted successfully " + str(result_two)}
@@ -103,8 +94,6 @@ async def send_data_to_create_stations(request: Request):
         # Get the data from the request
         result = await request.json()
 
-       
-
         # Insert the data into the database
         query_result = createStation(result['station_name'], result['city'], result['frequency'])
 
@@ -119,10 +108,33 @@ async def send_data_to_create_stations(request: Request):
         return {"message": "Failed to insert data", "error": e.errors()} 
     
 
+@app.post("/update_station")
+async def send_data_to_update_stations(request: Request): 
+    try:
+        # Get the data from the request
+        result = await request.json()
+
+        # Insert the data into the database
+        query_result = updateStation(result['id'], result['name'], result['city'], result['active'], result['frequency'])
+
+        if query_result and query_result["saved"]:
+            # Create the message to return
+            return {"success": True,"message": "Station created successfully", "id": query_result["id"]}
+        else:
+            return {"success": False,"message": "Failed to create station"}
+        
+        
+    except ValidationError as e:
+        return {"message": "Failed to insert data", "error": e.errors()} 
+    
+
+
 @app.get("/get_all_stations")
 def get_all_stations():
     # Call the function selectAllStations from the client
     query_result = showAllStations()
     return query_result
+
+
 
 app.include_router(router)

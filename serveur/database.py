@@ -11,37 +11,17 @@ def connectBase():
                  nom         text,
                  ville       text,
                  active      bool,
-                 fréquence   int) ''')
+                 frequence   int) ''')
         c.execute('''CREATE TABLE IF NOT EXISTS RELEVES
                 (smc         text,
-                 récolte     date default CURRENT_TIMESTAMP,
-                 température float,
-                 humidité_sol    float,
-                 humidité_air    float,
-                 pluviosité  bool,
+                 recolte     text,
+                 temperature float,
+                 humidite_sol    float,
+                 humidite_air    float,
+                 pluviosite  bool,
                  foreign key (smc) references STATIONS(id)) ''')
         conn.commit()
         return conn
     except Error as e:
         print(e)
         return None
-
-
-    
-#def createTrigger():
-    #try:
-        #conn = sqlite3.connect("database.db")
-        #c = conn.cursor()
-        #c.execute('''CREATE TRIGGER IF NOT EXISTS update_releves
-                #AFTER INSERT ON RELEVES
-                #BEGIN
-                    #UPDATE RELEVES
-                    #SET a = ''
-                    #WHERE id = old.smc;
-                #END;''')
-        #conn.commit()
-        #return True
-    #except Error as e:
-     #   print(e)
-     #   return False
-

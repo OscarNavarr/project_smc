@@ -60,6 +60,43 @@
         </div>
         <!-- Fin modal component-->
 
+        <!-- Modal component to update a station-->
+        <div id="update_station_modal" class="hidden fixed z-10 inset-0 h-[100vh] w-[100vw] bg-modal-container">
+            <div class="w-full h-full flex justify-center items-center">
+                <div class="w-[30rem]  bg-white rounded-[1rem] p-[2rem] flex flex-col justify-center items-center">
+                    <div class="w-full flex justify-end ">
+                        <button id="close_update_station_modal" class="text-gray-400 hover:text-gray-500 text-[1.3rem] rounded-[2rem] py-2 px-4 bx_shadow_special">X</button>
+                    </div>
+                    <h2 class="text-[2rem] text-center">Ajouter une nouvelle station</h2>
+                    <p id="message_form_request_for_update_station"></p>
+                    <form id="form_update_station" class="w-full mt-[2rem] flex flex-col justify-center items-center">
+                        
+                        
+                        <label for="station_name" class="pr-[65%] mb-2">Nom de la station</label>
+                        <input type="text" name="station_name" id="update_station_name" class="w-full h-[3rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" placeholder="Nom de la station" required>
+                        
+                        <label for="city" class="pr-[85%] mb-2">Ville</label>
+                        <input type="text" name="city" id="update_city" class="w-full h-[3rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" placeholder="Ville" required>
+                        
+                        <label for="active" class="pr-[85%] mb-2">Active</label>
+                        <select name="active" id="update_active" class="w-full h-[3.5rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" required>
+                            <option value="1">Oui</option>
+                            <option value="0">Non</option>
+                        </select>
+                        
+                        <label for="frequency" class="pr-[58%] mb-2">Fréquence de récolte</label>
+                        <input type="number" name="frequency" id="update_frequency" class="w-full h-[3rem] border border-gray-300 rounded-[1rem] p-[1rem] mb-[1rem]" placeholder="Fréquence de récolte" required>
+                        
+                        <input type="hidden" name="station_id" id="update_station_id">
+                        
+                        <button type="submit" class="w-[20rem] h-[3rem] bg-blue-500 text-white rounded-[1rem] mt-[1rem] mb-[2rem]">Modifier</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Fin modal component-->
+
+
         <div class="flex h-[100vh] bg_degred">
             <div class="w-[calc(100vw-50rem)] h-[100vh]  flex justify-center items-center">
                 <div class="">
@@ -133,6 +170,8 @@
     <script src="/static/js/handle_create_stations_form/handle_btn_create_new_stations.js"></script>
     <script src="/static/js/handle_create_stations_form/handle_form.js"></script>
     <script src="/static/js/handle_btns_at_top.js"></script>
+    <script src="/static/js/handle_tbody_for_stations/handle_update_station.js"></script>
+    <script src="/static/js/handle_tbody_for_stations/handle_form_to_update_station.js"></script>
     <script type="text/javascript" async>
         google.charts.load('current');
         function drawVisualization(data) {
@@ -194,14 +233,13 @@
                     color: '#fff',
                     fontSize: 14,
                 },
-                /*
                 animation: {
                     duration: 1000, 
                     easing: 'out',
                     startup: true, 
                     refreshInterval: 1000 
                 }
-                */
+                
             };
                 
             google.visualization.drawChart({
@@ -217,22 +255,6 @@
         
     
         
-    
-        /*
-            setInterval(() => {
-                // Delete the div with the id curve_chart
-                document.getElementById('curve_chart').remove();  
-                
-                // Create a new div with the id curve_chart
-                let new_div = document.createElement('div');
-                new_div.id = 'curve_chart';   
-                new_div.classList.add('w-full', 'h-[500px]');
-                document.getElementById('container_google_chart').appendChild(new_div); 
-                
-                
-                console.log('Chart updated')         
-            }, 1000);
-        */
     </script>
 
 </body>

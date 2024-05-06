@@ -32,24 +32,37 @@ const createRowForStations = (data, tbody) => {
     const td_frequence = document.createElement('td');
 
     tr.className = tr_class;
+    tr.setAttribute("data-istation", "true");
+    tr.setAttribute("data-id", data[0]);
+    tr.setAttribute("data-name", data[1]);
+    tr.setAttribute("data-ville", data[2]);
+    tr.setAttribute("data-activite", data[3]);
+    tr.setAttribute("data-frequence", data[4]);
     
     td_id.textContent = counter;
     td_id.className = td_class + " font-medium";
+    td_id.setAttribute("data-istation", "true");
 
     td_id_station.textContent = data[0];
     td_id_station.className = td_class;
+    td_id_station.setAttribute("data-istation", "true");
+
 
     td_stations_name.textContent = data[1];
     td_stations_name.className = td_class;
+    td_stations_name.setAttribute("data-istation", "true");
     
     td_ville.textContent = data[2];
     td_ville.className = td_class;
+    td_ville.setAttribute("data-istation", "true");
     
     td_activite.textContent = data[3] == true ? "Oui" : "Non";
     td_activite.className = td_class;
+    td_activite.setAttribute("data-istation", "true");
 
     td_frequence.textContent = data[4] + " secondes";
     td_frequence.className = td_class;
+    td_frequence.setAttribute("data-istation", "true");
 
 
     tr.appendChild(td_id);

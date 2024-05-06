@@ -9,10 +9,10 @@ import uuid
     This function allow us insert the data in the database Releves
     @param smc: the id of the station from uuid library
     @param active: if the station is active or not
-    @param fréquence: the frequency of the station
+    @param frequence: the frequency of the station
     @return: true if the data is inserted, false if not
 '''
-def insertReleves(smc,température,humidite_sol, humidite_air,pluviosité):
+def insertReleves(smc, local_date,temperature,humidite_sol, humidite_air,pluviosite):
     try:
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
@@ -21,7 +21,7 @@ def insertReleves(smc,température,humidite_sol, humidite_air,pluviosité):
 
         # If result is not None, the station exists
         if result != None:
-            c.execute("INSERT INTO RELEVES (smc,température,humidité_sol ,humidité_air,pluviosité) VALUES (?,?,?,?,?)",(smc,température,humidite_sol, humidite_air,pluviosité))
+            c.execute("INSERT INTO RELEVES (smc,recolte,temperature,humidite_sol ,humidite_air,pluviosite) VALUES (?,?,?,?,?,?)",(smc,local_date,temperature,humidite_sol, humidite_air,pluviosite))
         
         conn.commit()
 
@@ -48,10 +48,10 @@ def createStation(station_name, city, frequency):
         c = conn.cursor()
 
         # UPDATE STATIONS SET active = 0 WHERE ACTIVE = 1
-        c.execute("UPDATE STATIONS SET active = 0 WHERE ACTIVE = 1")
+        c.execute("UPDATE STATIONS SET active = 0 WHERE active = 1")
 
         # Insert the new station
-        c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(new_id,station_name,city,True,frequency))
+        c.execute("INSERT INTO STATIONS (id,nom,ville,active,frequence) VALUES (?,?,?,?,?)",(new_id,station_name,city,True,frequency))
         conn.commit()
 
         if c.rowcount > 0:
@@ -64,6 +64,32 @@ def createStation(station_name, city, frequency):
         return False
 
 
+'''
+    This function allow us to update a station in the database
+    @param id: the id of the station
+    @param name: the name of the station
+    @param city: the city of the station
+    @param active: if the station is active or not
+    @param frequency: the frequency of the station
+    @return: true if the station is updated, false if not
+
+'''
+def updateStation(id, name, city, active, frequency):
+    try:
+        conn = sqlite3.connect("database.db")
+        c = conn.cursor()
+        c.execute("UPDATE STATIONS SET nom = ?, ville = ?, active = ?, frequence = ? WHERE id = ?", (name, city, active, frequency, id))
+        conn.commit()
+
+        if c.rowcount > 0:
+            return {"saved": True, "id": id}
+        else:
+            return {"saved": False, "id": None}
+        
+    except Error as e:
+        print(e)
+        return False
+
 
 
 
@@ -75,7 +101,7 @@ def selectAllStations():
     try:
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
-        c.execute("SELECT * FROM STATIONS INNER JOIN RELEVES ON STATIONS.id = RELEVES.smc ORDER BY RELEVES.récolte DESC")
+        c.execute("SELECT * FROM STATIONS INNER JOIN RELEVES ON STATIONS.id = RELEVES.smc ORDER BY RELEVES.recolte DESC")
         result = c.fetchall()
         return result
     except Error as e:
