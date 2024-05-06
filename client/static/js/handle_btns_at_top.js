@@ -1,20 +1,26 @@
 counter = 1;
 
-
-// This fuction is used to get the data from the server about the stations
+/**
+ * This function is used to get the data from the server
+ * @returns {object} The data from the server
+ */
 const getDataAboutStations = async () => {
     try {
         const response = await fetch('/get_all_stations/');
         const data = await response.json();
-        return data;
+        // Inverse the data array
+        return data.reverse();
     } catch (error) {
         console.log(error);
     }
 }
 
 
-
-// Function to create a row in the table with the data 
+/**
+ * This function is used to get the data from the server
+ * @param {object} data  The data from the server
+ * @param {object} tbody The tbody of the table 
+ */
 const createRowForStations = (data, tbody) => {
 
     const tr = document.createElement('tr');
@@ -65,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const data_station_and_releves = await getData();
 
     // Get the data about the stations
-    const data_stations = await getDataAboutStations();
+    var data_stations = await getDataAboutStations();
 
     // Get the div that allows to slide the tables
     const div_slide = document.getElementById('div_slide');
@@ -86,6 +92,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Get the tbody of the table
     const tbody = document.querySelector('tbody');
+
 
     // This function is used to change the selection variable when the user clicks on the buttons at the top of the page
     const change_selection = (val) => {
@@ -149,6 +156,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
     }
+
+    // Update the table every 1 second
+    setInterval(async function() {
+        if (selection === "stations") {
+            data_stations = await getDataAboutStations();
+            change_selection("stations");
+
+        }
+    }, 1000);
 
     btn_show_table_donnees.addEventListener('click', function() {
         change_selection("donnees");

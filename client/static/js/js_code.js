@@ -39,7 +39,7 @@ const createRow = (data, tbody) => {
     recolte.textContent = data[6];
     recolte.className = td_class;
     
-    td_station_name.textContent = "Station 21";
+    td_station_name.textContent = data[1];
     td_station_name.className = td_class;
     
     td_ville.textContent = data[2];
@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Get the initial data
     var initialData = await getData();
-
 
     initialData.forEach(element => {
         all_data.push([element[6], element[7]]);

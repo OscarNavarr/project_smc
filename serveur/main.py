@@ -82,17 +82,11 @@ def get_chart():
 async def send_data(request: Request): 
     try:
         result = await request.json()
-        # Conocer el tipo de dato que es result
-        #print(type(result))   # str
-
-        # Convertir el string a un diccionario
-        #result = loads(result)
-        #print(type(result))   # dico
         
-
-        #print(result['temperature'])
+        # Convert the data to a dictionary
+        result = loads(result)
     
-        result_two = insertStation(result['smc'], result['ville'], result['active'], result['frequence'], result['temperature'], result['humidite_sol'], result['humidite_air'], result['pluviosite'])
+        result_two = insertReleves(result['smc'], result['temperature'], result['humidite_sol'], result['humidite_air'], result['pluviosite'])
 
         if result_two:
             return {"message": "Data inserted successfully " + str(result_two)}

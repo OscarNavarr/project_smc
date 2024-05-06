@@ -6,27 +6,23 @@ from sqlite3 import Error
 import uuid 
 
 '''
-    This function allow us insert the data in the database STATIONS
-    @param id: the id of the station from uuid library
-    @param nom: the name of the station
-    @param ville: the city of the station
+    This function allow us insert the data in the database Releves
+    @param smc: the id of the station from uuid library
     @param active: if the station is active or not
     @param fréquence: the frequency of the station
     @return: true if the data is inserted, false if not
 '''
-def insertStation(smc,ville,active,fréquence,température,humidite_sol, humidite_air,pluviosité):
+def insertReleves(smc,température,humidite_sol, humidite_air,pluviosité):
     try:
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
         c.execute('''SELECT * FROM STATIONS WHERE id = ?''', (smc,))
         result = c.fetchone()
 
-        if result == None:
-            c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(smc,smc,ville,active,fréquence))
+        # If result is not None, the station exists
+        if result != None:
+            c.execute("INSERT INTO RELEVES (smc,température,humidité_sol ,humidité_air,pluviosité) VALUES (?,?,?,?,?)",(smc,température,humidite_sol, humidite_air,pluviosité))
         
-
-        c.execute("INSERT INTO RELEVES (smc,température,humidité_sol ,humidité_air,pluviosité) VALUES (?,?,?,?,?)",(smc,température,humidite_sol, humidite_air,pluviosité))
-
         conn.commit()
 
         # retornar el ultimo id insertado
@@ -50,6 +46,11 @@ def createStation(station_name, city, frequency):
         new_id = str(uuid.uuid4())
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
+
+        # UPDATE STATIONS SET active = 0 WHERE ACTIVE = 1
+        c.execute("UPDATE STATIONS SET active = 0 WHERE ACTIVE = 1")
+
+        # Insert the new station
         c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(new_id,station_name,city,True,frequency))
         conn.commit()
 

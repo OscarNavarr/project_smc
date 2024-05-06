@@ -4,7 +4,7 @@
  * The code is executed when the DOM is fully loaded
  * 
 */
-console.log('js_code.js loaded');
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Get the button that opens the modal
