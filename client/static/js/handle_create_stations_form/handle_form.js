@@ -21,17 +21,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create a new station object
         const station = {
-            name: station_name,
+            station_name: station_name,
             city: station_city,
             frequency: station_frequency
         };
 
         
         // Send the form data to the server
-        const response = await fetch('/create_station', {
+        const response = await fetch('/create_station/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true',
             },
             body: JSON.stringify(station)
         });

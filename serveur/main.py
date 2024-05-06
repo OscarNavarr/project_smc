@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError
-from json import JSONDecodeError, loads
+from json import JSONDecodeError, loads, dump
 from database import *
 from handle_bd_function import *
 
@@ -35,7 +35,8 @@ origins = [
     "http://localhost:8000"
     "http://localhost:8080",
     "http://0.0.0.0:8000",
-    "http://10.7.4.134"
+    "http://10.7.4.134",
+    "http://10.7.5.176"
 ]
 
 app.add_middleware(
@@ -108,16 +109,22 @@ async def send_data_to_create_stations(request: Request):
         # Get the data from the request
         result = await request.json()
 
+       
         # Convert the string to a dictionary
         #result = loads(result)
 
         # Insert the data into the database
+       
+        
+        
         query_result = createStation(result['station_name'], result['city'], result['frequency'])
 
         if query_result and query_result["saved"]:
+            # Create the message to return
             return {"message": "Station created successfully", "id": query_result["id"]}
         else:
             return {"message": "Failed to create station"}
+        
         
     except ValidationError as e:
         return {"message": "Failed to insert data", "error": e.errors()} 

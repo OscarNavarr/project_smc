@@ -47,13 +47,13 @@ def insertStation(smc,ville,active,fréquence,température,humidite_sol, humidit
 
 def createStation(station_name, city, frequency):
     try:
-        new_id = uuid.uuid4()
+        new_id = str(uuid.uuid4())
         conn = sqlite3.connect("database.db")
         c = conn.cursor()
-        result = c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,1,?)",(new_id,station_name,city,frequency))
+        c.execute("INSERT INTO STATIONS (id,nom,ville,active,fréquence) VALUES (?,?,?,?,?)",(new_id,station_name,city,True,frequency))
         conn.commit()
 
-        if result:
+        if c.rowcount > 0:
             return {"saved": True, "id": new_id}
         else:
             return {"saved": False, "id": None}
